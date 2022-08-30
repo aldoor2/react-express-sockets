@@ -35,26 +35,33 @@ function App() {
   }, [messages]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className='h-screen bg-zinc-800 text-white flex items-center justify-center'>
+      <form onSubmit={handleSubmit} className='bg-zinc-900 p-10'>
+        <h1 className='text-2x1 font-bold my-2'>Chat React</h1>
         <input
           type='text'
           name='message'
-          placeholder='Write a message'
           onChange={(e) => setMessage(e.target.value)}
           value={message}
+          className='border-2 border-zinc-500 p-2 w-full text-black rounded-md'
         />
-        <button>Send</button>
-      </form>
 
-      {messages.map((message, index) => (
-        <div key={index}>
-          <p>
-            {message.from}: {message.body} <br />
-            {message.timestamp}
-          </p>
-        </div>
-      ))}
+        <ul className='h-80 overflow-y-auto'>
+          {messages.map((message, index) => (
+            <li
+              key={index}
+              className={`my-2 p-2 table text-sm rounded-md ${
+                message.from === 'Me' ? 'bg-sky-700 ml-auto' : 'bg-black'
+              }`}
+            >
+              <p>
+                {message.from}: {message.body} <br />
+                {message.timestamp}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </form>
     </div>
   );
 }
