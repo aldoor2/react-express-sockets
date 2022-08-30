@@ -18,7 +18,12 @@ app.use(cors())
 app.use(morgan('dev'))
 
 io.on('connection', (socket) => {
-  console.log(`A user with id: ${socket.id} connected`)
+  console.log(socket.id)
+
+  socket.on('client:message', (message) => {
+    console.log(message)
+    socket.broadcast.emit('server:message', message)
+  })
 })
 
 server.listen(PORT)
