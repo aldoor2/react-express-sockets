@@ -22,7 +22,11 @@ io.on('connection', (socket) => {
 
   socket.on('client:message', (message) => {
     console.log(message)
-    socket.broadcast.emit('server:message', message)
+    socket.broadcast.emit('server:message', {
+      body: message,
+      from: socket.id,
+      timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+    })
   })
 })
 

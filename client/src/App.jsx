@@ -6,17 +6,24 @@ const socket = io('http://localhost:4000');
 
 function App() {
   const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit('client:message', message);
+    const newMessage = {
+      body: message,
+      from: 'Me',
+      timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+    };
+    setMessages([newMessage, ...messages]);
     setMessage('');
   };
 
   useEffect(() => {
     // Procesa los mensages que recive de otros usuarios
     const receivedMessage = (message) => {
-      console.log(message);
+      setMessages((messages) => [message, ...messages]);
     };
     // Evento de escucha
     socket.on('server:message', receivedMessage);
@@ -25,10 +32,10 @@ function App() {
       // Desuscribe el evento de escucha al finalizar lo recepcion
       socket.off('server:message', receivedMessage);
     };
-  }, []);
+  }, [messages]);
 
   return (
-    <div className='App'>
+    <div>
       <form onSubmit={handleSubmit}>
         <input
           type='text'
@@ -39,6 +46,15 @@ function App() {
         />
         <button>Send</button>
       </form>
+
+      {messages.map((message, index) => (
+        <div key={index}>
+          <p>
+            {message.from}: {message.body} <br />
+            {message.timestamp}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }
