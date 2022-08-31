@@ -29,7 +29,6 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('server:message', {
       body: message,
       from: socket.id,
-      timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
     })
   })
 })

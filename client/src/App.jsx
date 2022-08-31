@@ -15,7 +15,6 @@ function App() {
     const newMessage = {
       body: message,
       from: 'Me',
-      timestamp: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
     };
     setMessages([newMessage, ...messages]);
     setMessage('');
@@ -56,8 +55,7 @@ function App() {
               }`}
             >
               <p>
-                {message.from}: {message.body} <br />
-                {message.timestamp}
+                {message.from}: {message.body}
               </p>
             </li>
           ))}
